@@ -1,4 +1,4 @@
-package com.teste.HcodeR.domain;
+package com.teste.HcodeR.domain.DTO;
 
 import lombok.Data;
 
