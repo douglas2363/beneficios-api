@@ -1,0 +1,72 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: beneficios-api
+
+  datasource:
+    url: jdbc:h2:mem:beneficiosdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  kafka:
+    bootstrap-servers: localhost:9092
+    # não derruba a app se o Kafka não estiver pronto
+    admin:
+      fail-fast: false
+    # backoff de reconexão e timeouts
+    properties:
+      reconnect.backoff.ms: 500
+      reconnect.backoff.max.ms: 5000
+      request.timeout.ms: 15000
+      # (opcional) desabilitar auto.create.topics do broker se necessário:
+      # allow.auto.create.topics: false
+
+    consumer:
+      group-id: beneficios-consumer
+      auto-offset-reset: earliest
+      properties:
+        spring.json.trusted.packages: "*"
+
+    producer:
+      acks: all
+      retries: 5
+      properties:
+        enable.idempotence: true
+
+# controle (custom) para criação de tópicos via @ConditionalOnProperty
+kafka:
+  topics:
+    auto-create: true
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus,env,threaddump
+  endpoint:
+    health:
+      show-details: always
+  metrics:
+    tags:
+      application: ${spring.application.name}
+
+logging:
+  level:
+    org.apache.kafka: WARN

@@ -37,7 +37,7 @@ public class BenefitServiceTest {
         when(repository.save(any(Beneficio.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         // when
-        Beneficio result = service.desativarBeneficio(id);
+        Beneficio result = service.desativar(id);
 
         // then
         assertNotNull(result);

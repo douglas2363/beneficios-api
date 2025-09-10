@@ -39,7 +39,7 @@ public class BeneficioController {
     @Operation(summary = "Desativar ou Ativarum benefício")
     @PutMapping("/{id}/deactivate")
     public ResponseEntity<Beneficio> deactivateBenefit(@PathVariable Long id) {
-        Beneficio updated = service.desativarBeneficio(id);
+        Beneficio updated = service.desativar(id);
         return ResponseEntity.ok(updated);
     }
 
